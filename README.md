@@ -1,1 +1,1 @@
-# Sizable-UIViewController-for-Playground
+# Sizable UIViewController for Playground
