@@ -1,1 +1,1 @@
-# Sizable UIViewController for Playground
+# Scalable UIViewController for Playground
