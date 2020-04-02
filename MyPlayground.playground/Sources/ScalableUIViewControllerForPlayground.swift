@@ -58,6 +58,13 @@ extension UIViewController {
     }
     
     public func scale(to scale: Float) -> UIWindow {
+        if let self = self as? UINavigationController {
+            guard let contentSize = self.topViewController?.view.frame.size else {
+                print("Erro: Seu Navigation Controller não possui um View Controller")
+                return UIWindow()
+            }
+            self.view.frame.size = contentSize == .zero ? view.frame.size : contentSize
+        }
         self.view.transform = CGAffineTransform(scaleX: CGFloat(scale), y: CGFloat(scale))
         self.preferredContentSize = self.view.frame.size
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 770, height: 956))

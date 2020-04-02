@@ -1,5 +1,6 @@
 import UIKit
 import PlaygroundSupport
+import Foundation
 
 class MyViewController: UIViewController {
     override func loadView() {
@@ -16,4 +17,4 @@ class MyViewController: UIViewController {
 }
 
 let vc = MyViewController(screenType: .ipadPro12_9, isPortrait: false)
-PlaygroundPage.current.liveView = vc.scale(to: 0.4)
+PlaygroundPage.current.liveView = vc.scale(to: 0.5)
