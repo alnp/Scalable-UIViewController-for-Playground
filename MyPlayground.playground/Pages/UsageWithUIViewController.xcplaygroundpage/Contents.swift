@@ -9,7 +9,7 @@ class MyViewController: UIViewController {
         
         let image = #imageLiteral(resourceName: "dukesamoieda.png")
         let imageView = UIImageView(image: image)
-        imageView.frame = CGRect(x: 10, y: 5, width: 475, height: 595)
+        imageView.frame = CGRect(x: 10, y: 5, width: 475/2, height: 595/2)
         
         view.addSubview(imageView)
         self.view = view
@@ -17,4 +17,4 @@ class MyViewController: UIViewController {
 }
 
 let vc = MyViewController(screenType: .ipadPro12_9, isPortrait: false)
-PlaygroundPage.current.liveView = vc.scale(to: 0.5)
+PlaygroundPage.current.liveView = vc.scaleToFit()

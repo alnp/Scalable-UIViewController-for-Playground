@@ -44,4 +44,4 @@ let viewControllers = [ /* suas telas */
 
 let tabBarController = UITabBarController(screenType: .mac)
 tabBarController.viewControllers = viewControllers
-PlaygroundPage.current.liveView = tabBarController.scale(to: 0.5)
+PlaygroundPage.current.liveView = tabBarController.scaleToFit()

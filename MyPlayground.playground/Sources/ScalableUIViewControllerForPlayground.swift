@@ -1,5 +1,4 @@
 import UIKit
-import PlaygroundSupport
 
 public enum ScreenType {
     case iphone11ProMax
@@ -36,7 +35,7 @@ public enum ScreenType {
         case .ipadPro12_9:
             size = CGSize(width: 1024, height: 1366)
         case .mac:
-            size = CGSize(width: 1440, height: 900)
+            return CGSize(width: 1440, height: 900)
         case .other(let width, let height):
             size = CGSize(width: width, height: height)
         }
@@ -57,20 +56,47 @@ extension UIViewController {
         preferredContentSize = size
     }
     
-    public func scale(to scale: Float) -> UIView {
-        if let self = self as? UINavigationController {
-            guard let contentSize = self.topViewController?.view.frame.size else {
-                print("Erro: Seu Navigation Controller não possui um View Controller")
-                return UIView()
-            }
+    func setupForNavigation() {
+        guard let self = self as? UINavigationController else { return }
+        if let contentSize = self.topViewController?.view.frame.size {
             self.view.frame.size = contentSize == .zero ? view.frame.size : contentSize
+        } else {
+            print("Erro: Seu Navigation Controller não possui um View Controller")
         }
-        self.view.transform = CGAffineTransform(scaleX: CGFloat(scale), y: CGFloat(scale))
-        self.preferredContentSize = self.view.frame.size
-        let rootView = UIView(frame: CGRect(x: 0, y: 0, width: 768, height: 1024))
+    }
+    
+    func setupRootView(_ rootView: UIView, withCenteredSubview: Bool = true) {
         rootView.backgroundColor = .black
         rootView.addSubview(self.view)
-        self.view.center = rootView.center
+        if withCenteredSubview {
+            self.view.center = rootView.center
+        } else {
+            self.view.center.x = rootView.center.x
+            self.view.center.y = rootView.frame.minY + self.view.frame.height/2
+        }
+        
+    }
+    
+    public func scale(to scale: Float) -> UIView {
+        setupForNavigation()
+        self.view.transform = CGAffineTransform(scaleX: CGFloat(scale), y: CGFloat(scale))
+        let rootView = UIView(frame: CGRect(x: 0, y: 0, width: 768, height: 1024))
+        setupRootView(rootView)
+        self.preferredContentSize = self.view.frame.size
+        return rootView
+    }
+    
+    public func scaleToFit(withKeyboard: Bool = false) -> UIView {
+        setupForNavigation()
+        let viewSize = self.view.frame.size
+        let maxRootViewSize = CGSize(width: 768, height: 1024)
+        let isViewPortrait = viewSize.height > viewSize.width
+        let scale = isViewPortrait ? (maxRootViewSize.height/viewSize.height) : (maxRootViewSize.width/viewSize.width)
+        self.view.transform = CGAffineTransform(scaleX: CGFloat(scale), y: CGFloat(scale))
+        let rootViewSize = CGSize(width: self.view.frame.width, height: withKeyboard ? 1024 : self.view.frame.height)
+        let rootView = UIView(frame: CGRect(x: 0, y: 0, width: rootViewSize.width, height: rootViewSize.height))
+        setupRootView(rootView, withCenteredSubview: false)
+        self.preferredContentSize = rootView.frame.size
         return rootView
     }
 }

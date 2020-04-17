@@ -71,7 +71,7 @@ let thirdViewController = ThirdViewController()
 
 let navigation = UINavigationController(rootViewController: firstViewController)
 
-PlaygroundPage.current.liveView = navigation.scale(to: 0.5)
+PlaygroundPage.current.liveView = navigation.scaleToFit()
 //: -------------
 //: ## Perguntas norteadoras
 //: - Qual é a diferença se usamos *dismiss()* ao invés de *popViewController()*? Funciona do mesmo jeito?
